@@ -23,8 +23,22 @@ int main (void)
         zmq_msg_init_size (&request, 5);
         memcpy (zmq_msg_data (&request), "Hello", 5);
         printf ("Sending Hello %d...\n", request_nbr);
-        zmq_send (requester, &request, 0);
+	int ret;
+        ret = zmq_send (requester, &request, 0);
+	if (ret) {
+	  printf("zmq_send() error: %s\n", zmq_strerror(zmq_errno()));
+	}
         zmq_msg_close (&request);
+
+        zmq_msg_t request2;
+        zmq_msg_init_size (&request2, 5);
+        memcpy (zmq_msg_data (&request2), "Evil", 4);
+        printf ("Sending Evil %d...\n", request_nbr);
+        ret = zmq_send (requester, &request2, 0);
+	if (ret) {
+	  printf("zmq_send() error: %s\n", zmq_strerror(zmq_errno()));
+	}
+        zmq_msg_close (&request2);
 
         zmq_msg_t reply;
         zmq_msg_init (&reply);
