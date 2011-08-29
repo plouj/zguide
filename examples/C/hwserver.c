@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include "zhelpers.h"
 
 int main (void)
 {
@@ -18,11 +19,11 @@ int main (void)
 
     while (1) {
         //  Wait for next request from client
-        zmq_msg_t request;
-        zmq_msg_init (&request);
-        zmq_recv (responder, &request, 0);
-        printf ("Received Hello\n");
-        zmq_msg_close (&request);
+        /* zmq_msg_t request; */
+        /* zmq_msg_init (&request); */
+        /* zmq_recv (responder, &request, 0); */
+        printf ("Received: %s\n", s_recv(responder));
+        /* zmq_msg_close (&request); */
 
         //  Do some 'work'
         sleep (1);
